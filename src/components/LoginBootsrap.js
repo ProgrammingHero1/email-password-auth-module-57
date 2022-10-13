@@ -7,6 +7,7 @@ const auth = getAuth(app);
 
 const LoginBootsrap = () => {
     const [success, setSuccess] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
     
     const handleSubmit = event =>{
         event.preventDefault();
@@ -29,8 +30,24 @@ const LoginBootsrap = () => {
 
     }
 
+    const handleEmailBlur = event =>{
+        const email = event.target.value;
+        setUserEmail(email);
+        console.log(email);
+    }
+
     const handleForgetPassword = () => {
-        sendPasswordResetEmail(auth, )
+        if(!userEmail){
+            alert('Please enter your email address.')
+            return;
+        }
+        sendPasswordResetEmail(auth, userEmail)
+        .then( () => {
+            alert('Password Reset email sent. Please check your email.')
+        })
+        .catch( error => {
+            console.error(error);
+        })
     }
 
     return (
@@ -39,7 +56,7 @@ const LoginBootsrap = () => {
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="formGroupExampleInput" className="form-label">Example label</label>
-                    <input type="email" name='email' className="form-control" id="formGroupExampleInput" placeholder="Your Email" required/>
+                    <input onBlur={handleEmailBlur} type="email" name='email' className="form-control" id="formGroupExampleInput" placeholder="Your Email" required/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="formGroupExampleInput2" className="form-label">Another label</label>
@@ -49,7 +66,7 @@ const LoginBootsrap = () => {
             </form>
             {success && <p>Successfully login to the account</p>}
             <p><small>New to this website? Please <Link to='/register'>Register</Link></small></p>
-            <p>Forget Password? <button type="button" onClick={handleForgetPassword} className="btn btn-link">Please Reset</button></p>
+            <p><small>Forget Password? <button type="button" onClick={handleForgetPassword} className="btn btn-link">Reset Password</button></small></p>
         </div>
     );
 };

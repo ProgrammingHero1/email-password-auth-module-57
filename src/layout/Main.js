@@ -1,14 +1,13 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 const Main = () => {
     return (
         <div>
-            <nav>
-                <Link to='/login'>Login</Link>
-                <Link to='/register'>Register</Link>
-            </nav>
+            <h5 className='text-center m-4'>My Email password Authentication</h5>
+
             <Outlet></Outlet>
+
         </div>
     );
 };
